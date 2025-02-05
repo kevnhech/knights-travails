@@ -1,3 +1,10 @@
+function prettyPrint(arr) {
+  console.log(`=> You made it in ${arr.length - 1} moves! Here's your path:`);
+  for (move of arr) {
+    console.log(move);
+  }
+}
+
 function knightMoves(start, end) {
   let visited = new Set();
   let queue = [{position: start, parent: null}];
@@ -14,11 +21,7 @@ function knightMoves(start, end) {
         curr = curr.parent;
       }
 
-      if (start < end) {
-        return path.sort();
-      } else {
-        return path.sort((a, b) => (a > b ? -1 : 1));
-      }
+      return path.reverse();
     }
 
     for (n of neighbors) {
@@ -62,7 +65,4 @@ function possibleMoves(pos) {
   return array;
 }
 
-console.log(knightMoves([0, 0], [1, 2]));
-console.log(knightMoves([0, 0], [3, 3]));
-console.log(knightMoves([3, 3], [0, 0]));
-console.log(knightMoves([0, 0], [7, 7]));
+prettyPrint(knightMoves([3, 3], [4, 3]));
