@@ -1,4 +1,33 @@
-function knightMoves(start, end) {}
+function knightMoves(start, end) {
+  let visited = new Set();
+  let queue = [{position: start, parent: null}];
+
+  while (queue.length > 0) {
+    let curr = queue.shift();
+    let neighbors = possibleMoves(curr.position);
+    visited.add(curr.position.toString());
+
+    if (curr.position.toString() == end.toString()) {
+      let path = [];
+      while (curr != null) {
+        path.push(curr.position);
+        curr = curr.parent;
+      }
+
+      if (start < end) {
+        return path.sort();
+      } else {
+        return path.sort((a, b) => (a > b ? -1 : 1));
+      }
+    }
+
+    for (n of neighbors) {
+      if (!visited.has(n.toString())) {
+        queue.push({position: n, parent: {position: curr.position, parent: curr.parent}});
+      }
+    }
+  }
+}
 
 function possibleMoves(pos) {
   let array = [];
@@ -30,9 +59,10 @@ function possibleMoves(pos) {
   } else {
     throw new Error(">Please enter a valid starting point.");
   }
-
-  console.log(`You have ${array.length} possible moves!`)
   return array;
 }
 
-console.log(possibleMoves([3, 3]));
+console.log(knightMoves([0, 0], [1, 2]));
+console.log(knightMoves([0, 0], [3, 3]));
+console.log(knightMoves([3, 3], [0, 0]));
+console.log(knightMoves([0, 0], [7, 7]));
